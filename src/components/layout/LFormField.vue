@@ -4,21 +4,27 @@
 
     <label>
     
-      <strong v-if="control.label">
+      <strong v-if="control.label || control.description">
+
         {{ control.label }}
+
+        <em
+          v-if="control.description"
+          v-html="control.description"
+        ></em>
+
       </strong>
 
-      <em v-if="control.description">
-        {{ control.description }}
-      </em>
-
-      <ui-input/>
+      <ui-input
+        v-model="controlValue"
+      />
 
     </label>
 
   </div>
 
 </template>
+
 <script>
 export default {
   name: 'FormField',
@@ -40,8 +46,43 @@ export default {
 
         return true
       }
+    },
+
+    value: {
+      type: [String, Number]
+    }
+  },
+
+  computed: {
+    controlValue: {
+      get () {
+        return this.value
+      },
+
+      set (value) {
+        this.$emit(
+          'input',
+          value
+        )
+      }
     }
   }
 }
 </script>
+
+<style lang="scss">
+.l-FormField {
+  label {
+    > strong {
+      display: block;
+      text-transform: uppercase;
+
+      > em {
+        text-transform: none;
+        font-weight: normal;
+      }
+    }
+  }
+}
+</style>
 

@@ -18,6 +18,7 @@
         <l-form-field
           v-for="control in step.controls"
           :key="control.name"
+          v-model="values[control.name]"
           ref="control"
           :control="control"
         />
@@ -48,6 +49,12 @@ export default {
     activeStep: {
       type: Number,
       required: true
+    }
+  },
+
+  data () {
+    return {
+      values: {}
     }
   },
 
