@@ -3,8 +3,8 @@
   <input
     ref="input"
     v-model="controlValue"
-    :placeholder="placeholderText"
     @blur="touchControl"
+    :placeholder="placeholderText"
   >
 
 </template>
@@ -64,6 +64,12 @@ export default {
       this.$refs.input.type = this.control.type
     },
 
+    disableInput () {
+      if (this.control.disabled) {
+        this.$refs.input.disabled = true
+      }
+    },
+
     touchControl () {
       this.$emit('blur')
     }
@@ -71,6 +77,7 @@ export default {
 
   mounted () {
     this.setInputType()
+    this.disableInput()
   }
 }
 </script>

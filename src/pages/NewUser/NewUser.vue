@@ -10,6 +10,7 @@
 
     <new-user-form
       :model="formModel"
+      ref="form"
       class="p-NewUser__form"
     />
 
@@ -45,7 +46,11 @@ export default {
               name: 'email',
               label: 'Email',
               type: 'email',
-              required: true
+              required: true,
+              validator: (value) => {
+                this.$refs.form.$refs.form.values.emailVerification = value
+                return true
+              }
             },
             {
               name: 'password',
@@ -56,18 +61,20 @@ export default {
               maxlength: 32
             },
             {
-              name: 'verifyPassword',
-              label: 'Verify Password',
+              name: 'confirmPassword',
+              label: 'Confirm Password',
               type: 'password',
               required: true,
-              minlength: 6,
-              maxlength: 32
+              maxlength: 32,
+              validator: (value) => {
+                return value === this.$refs.form.$refs.form.values.password
+              }
             }
           ]
         },
         {
           title: 'Select the user group',
-          intro: '<h1>Choose the User Group</h2>',
+          intro: '<h2>Choose the User Group</h2>',
           controls: [
             {
               name: 'userGroup',
@@ -75,13 +82,17 @@ export default {
               description: 'User Group to add the users to',
               type: 'select',
               required: true,
-              options: this.userGroups
+              options: this.userGroups,
+              validator: (value) => {
+                this.$refs.form.$refs.form.values.userGroupVerification = value
+                return value !== '-'
+              }
             }
           ]
         },
         {
           title: 'Add an avatar',
-          constrols: [
+          controls: [
             {
               name: 'avatar',
               label: 'Avatar',
@@ -94,7 +105,18 @@ export default {
         {
           title: 'Submit the form',
           controls: [
-
+            {
+              name: 'emailVerification',
+              label: 'Email',
+              type: 'text',
+              disabled: true
+            },
+            {
+              name: 'userGroupVerification',
+              label: 'User Group',
+              type: 'text',
+              disabled: true
+            }
           ]
         }
       ]

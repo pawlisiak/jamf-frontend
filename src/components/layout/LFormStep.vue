@@ -17,10 +17,19 @@
       </ui-button>
 
       <ui-button
-        :callback="gotoNextStep"
-        priority="primary"
+        v-if="!stepIsLast"
+        :callback="goToStep"
+        priority="secondary"
       >
         Next
+      </ui-button>
+
+      <ui-button
+        v-else
+        :callback="submitForm"
+        priority="primary"
+      >
+        Submit
       </ui-button>
 
     </div>
@@ -37,15 +46,52 @@ export default {
     index: {
       type: Number,
       required: true
+    },
+
+    count: {
+      type: Number,
+      required: true
+    }
+  },
+
+  computed: {
+    stepIsLast () {
+      return this.index + 1 >= this.count
     }
   },
 
   methods: {
-    gotoNextStep () {
-      this.$emit(
-        'stepChange',
-        this.index + 1
-      )
+    goToStep () {
+      if (this.getStepValidation()) {
+        this.$emit(
+          'stepChange',
+          this.index + 1
+        )
+      }
+    },
+
+    getStepValidation () {
+      let stepIsValid = true
+
+      this.$children.forEach(child => {
+        if ('touchControl' in child) {
+          child.touchControl()
+
+          if (!child.controlIsValid) {
+            stepIsValid = false
+          }
+        }
+      })
+
+      return stepIsValid
+    },
+
+    submitForm () {
+      if (this.getStepValidation()) {
+        this.$emit(
+          'submitForm'
+        )
+      }
     }
   }
 }

@@ -22,15 +22,13 @@
         v-model="controlValue"
         :control="control"
         @blur="touchControl"
-        @input="validateControl"
       />
 
       <ui-select
         v-if="controlIsSelect"
         v-model="controlValue"
         :control="control"
-        @blur="touchControl"
-        @change="validateControl"
+        @change="touchControl"
       />
 
       <ui-file-modal
@@ -131,10 +129,16 @@ export default {
     }
   },
 
+  watch: {
+    controlValue (val) {
+      this.validateControl(val)
+    }
+  },
+
   methods: {
     touchControl () {
       this.controlIsTouched = true
-      this.validateControl()
+      this.validateControl(this.controlValue)
     },
 
     setValidationTip (message) {
@@ -147,7 +151,7 @@ export default {
       this.validationTip.length = 0
     },
 
-    validateControl () {
+    validateControl (value) {
       // Prevent validation during input before first blur of input
       if (!this.controlIsTouched) {
         return
@@ -156,25 +160,25 @@ export default {
       this.resetValidationStatus()
 
       // Find if required field is non-empty
-      if (this.control.required && (!this.controlValue || this.controlValue.trim().length === 0)) {
+      if (this.control.required && (!value || value.length === 0)) {
         this.setValidationTip('The field is required.')
         return
       }
 
       // Find if length reach minlength parameter
-      if (this.control.minlength && this.controlValue.trim().length < this.control.minlength) {
+      if (this.control.minlength && value.trim().length < this.control.minlength) {
         this.setValidationTip('The field value should be at least ' + this.control.minlength + ' characters long.')
       }
 
       // Find if length is lower than maxlength parameter
-      if (this.control.maxlength && this.controlValue.trim().length > this.control.maxlength) {
+      if (this.control.maxlength && value.trim().length > this.control.maxlength) {
         this.setValidationTip('The field value can\'t be longer than ' + this.control.maxlength + ' characters long.')
       }
 
       // Find if there is custom validator
       if ('validator' in this.control && typeof this.control.validator === 'function') {
         // Find if custom validator gives positive result
-        if (!this.control.validator(this.controlValue)) {
+        if (!this.control.validator(value)) {
           this.setValidationTip('Something wrong')
         }
       }

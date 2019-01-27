@@ -3,7 +3,8 @@
   <button
     @click.prevent="callback"
     class="u-Button"
-    :class="{ 'u-Button--primary': priority === 'primary' }"
+    :class="{ 'u-Button--primary': priority === 'primary',
+              'u-Button--secondary': priority === 'secondary' }"
   >
 
     <slot/>
@@ -27,7 +28,7 @@ export default {
       default: 'default',
 
       validator: (value) => {
-        return ['primary', 'default'].indexOf(value) > -1
+        return ['primary', 'secondary', 'default'].indexOf(value) > -1
       }
     }
   }
@@ -46,10 +47,18 @@ export default {
   border-radius: 18px;
   cursor: pointer;
 
-  &--primary {
+  &--primary,
+  &--secondary {
     color: white;
-    background-color: $color-gradient-blue-to;
     border-color: $color-brand-accent;
+  }
+
+  &--primary {
+    background-color: $color-brand-accent;
+  }
+
+  &--secondary {
+    background-color: $color-gradient-blue-to;
   }
 }
 </style>

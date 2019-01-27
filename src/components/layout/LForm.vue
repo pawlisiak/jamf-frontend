@@ -5,15 +5,17 @@
     <l-form-step
       v-for="(step, index) in model"
       :key="index"
-      :index="index"
       v-show="stepIsActive(index)"
       @stepChange="stepChange"
+      @submitForm="submitForm"
+      :index="index"
+      :count="model.length"
     >
 
-      <template
+      <div
         v-if="step.intro"
         v-html="step.intro"
-      ></template>
+      ></div>
 
       <l-form-field
         v-for="control in step.controls"
@@ -22,10 +24,10 @@
         :control="control"
       />
 
-      <template
+      <div
         v-if="step.outro"
         v-html="step.outro"
-      ></template>
+      ></div>
 
     </l-form-step>
 
@@ -59,6 +61,10 @@ export default {
 
     stepChange (payload) {
       this.activeStep = payload
+    },
+
+    submitForm () {
+      console.log('Submit!')
     }
   }
 }

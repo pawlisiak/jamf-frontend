@@ -3,6 +3,7 @@
   <main>
 
     <l-form
+      ref="form"
       :model="model"
     />
 
@@ -18,12 +19,6 @@ export default {
     model: {
       type: Array,
       required: true
-    }
-  },
-
-  data () {
-    return {
-      values: {}
     }
   }
 }
