@@ -1,5 +1,5 @@
 <template>
-  
+
   <header class="l-Header">
 
     <h1>{{ pageTitle }}</h1>

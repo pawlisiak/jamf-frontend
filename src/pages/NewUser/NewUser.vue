@@ -10,7 +10,6 @@
 
     <new-user-form
       :model="formModel"
-      :activeStep="activeStep"
       class="p-NewUser__form"
     />
 
@@ -22,7 +21,7 @@
 import NewUserSidebar from './NewUserSidebar'
 import NewUserForm from './NewUserForm'
 
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'NewUser',
@@ -52,13 +51,17 @@ export default {
               name: 'password',
               label: 'Password',
               type: 'password',
-              required: true
+              required: true,
+              minlength: 6,
+              maxlength: 32
             },
             {
               name: 'verifyPassword',
               label: 'Verify Password',
               type: 'password',
-              required: true
+              required: true,
+              minlength: 6,
+              maxlength: 32
             }
           ]
         },
@@ -114,13 +117,11 @@ export default {
 
   methods: {
     ...mapActions('NewUser', {
-      fetchData: 'fetchCachedData',
       fetchUserGroupsData: 'fetchUserGroupsData'
     })
   },
 
   mounted () {
-    this.fetchData()
     this.fetchUserGroupsData()
   }
 }
@@ -173,7 +174,7 @@ export default {
 
   &__form {
     flex-grow: 1;
-    padding: 35px 15px 15px;
+    padding: 40px 25px 25px;
 
     .l-Form {
       height: 100%;
@@ -181,4 +182,3 @@ export default {
   }
 }
 </style>
-

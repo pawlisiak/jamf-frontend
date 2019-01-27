@@ -1,5 +1,5 @@
 <template>
-  
+
   <aside class="l-Sidebar">
 
     <slot/>

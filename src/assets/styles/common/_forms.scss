@@ -1,0 +1,20 @@
+%form-control {
+  display: block;
+  width: 100%;
+  padding: 1em;
+  font-size: $font-size-base;
+  line-height: 1em;
+  background: white;
+  border: 1px solid $color-gray;
+  border-radius: 3px;
+
+  .is-invalid & {
+    border-color: red;
+  }
+}
+
+input {
+  &:not([type=checkbox]):not([type="radio"]) {
+    @extend %form-control;
+  }
+}

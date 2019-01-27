@@ -1,5 +1,5 @@
 <template>
-  
+
   <button
     @click.prevent="callback"
     class="u-Button"

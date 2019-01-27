@@ -1,36 +1,10 @@
 <template>
-  
+
   <main>
 
-    <l-form>
-
-      <l-form-step
-        v-for="(step, index) in model"
-        :key="index"
-        v-show="stepIsActive(index)"
-      >
-
-        <template
-          v-if="step.intro"
-          v-html="step.intro"
-        ></template>
-
-        <l-form-field
-          v-for="control in step.controls"
-          :key="control.name"
-          v-model="values[control.name]"
-          ref="control"
-          :control="control"
-        />
-
-        <template
-          v-if="step.outro"
-          v-html="step.outro"
-        ></template>
-
-      </l-form-step>
-
-    </l-form>
+    <l-form
+      :model="model"
+    />
 
   </main>
 
@@ -44,11 +18,6 @@ export default {
     model: {
       type: Array,
       required: true
-    },
-
-    activeStep: {
-      type: Number,
-      required: true
     }
   },
 
@@ -56,13 +25,6 @@ export default {
     return {
       values: {}
     }
-  },
-
-  methods: {
-    stepIsActive (step) {
-      return this.activeStep === step
-    }
   }
 }
 </script>
-

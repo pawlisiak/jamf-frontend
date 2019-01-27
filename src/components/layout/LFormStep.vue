@@ -1,5 +1,5 @@
 <template>
-  
+
   <div class="l-FormStep">
 
     <div class="l-FormStep__wrapper">
@@ -33,9 +33,19 @@
 export default {
   name: 'FormStep',
 
+  props: {
+    index: {
+      type: Number,
+      required: true
+    }
+  },
+
   methods: {
     gotoNextStep () {
-      console.log(this)
+      this.$emit(
+        'stepChange',
+        this.index + 1
+      )
     }
   }
 }
@@ -64,4 +74,3 @@ export default {
   }
 }
 </style>
-
