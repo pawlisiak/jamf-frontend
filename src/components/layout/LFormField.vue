@@ -179,7 +179,8 @@ export default {
       if ('validator' in this.control && typeof this.control.validator === 'function') {
         // Find if custom validator gives positive result
         if (!this.control.validator(value)) {
-          this.setValidationTip('Something wrong')
+          let message = this.control.validationMessage || 'The field is invalid.'
+          this.setValidationTip(message)
         }
       }
     }

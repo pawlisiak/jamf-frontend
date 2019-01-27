@@ -25,4 +25,8 @@ select {
   -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;
+
+  &::after {
+    content: "drop";
+  }
 }

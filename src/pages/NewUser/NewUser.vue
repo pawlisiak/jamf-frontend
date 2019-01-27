@@ -49,8 +49,11 @@ export default {
               required: true,
               validator: (value) => {
                 this.$refs.form.$refs.form.values.emailVerification = value
-                return true
-              }
+                
+                let regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                return regex.test(value)
+              },
+              validationMessage: 'Wrong format of email address.'
             },
             {
               name: 'password',
@@ -68,7 +71,8 @@ export default {
               maxlength: 32,
               validator: (value) => {
                 return value === this.$refs.form.$refs.form.values.password
-              }
+              },
+              validationMessage: 'Password and confirmation don\'t match.'
             }
           ]
         },
@@ -84,9 +88,22 @@ export default {
               required: true,
               options: this.userGroups,
               validator: (value) => {
-                this.$refs.form.$refs.form.values.userGroupVerification = value
-                return value !== '-'
-              }
+                if (value === '-') {
+                  return false
+                }
+
+                let groupObject = this.userGroups.filter(group => {
+                  if (group.id === value) {
+                    return group
+                  }
+                })
+
+                let groupName = groupObject[0].label
+                this.$refs.form.$refs.form.values.userGroupVerification = groupName
+
+                return true
+              },
+              validationMessage: 'You have to choose the User Group'
             }
           ]
         },
