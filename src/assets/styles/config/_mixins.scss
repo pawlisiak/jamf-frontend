@@ -1,0 +1,22 @@
+/** Font family embedding **/
+
+@mixin fontFace ($fontName, $directory, $fileName, $fontWeight: normal, $fontStyle: normal) {
+  @font-face {
+    font-family: '#{$fontName}';
+    src: url('#{$directory}/#{$fileName}.eot');
+    src: url('#{$directory}/#{$fileName}.eot?#iefix') format('embedded-opentype'),
+         url('#{$directory}/#{$fileName}.woff') format('woff'),
+         url('#{$directory}/#{$fileName}.ttf') format('truetype');
+    font-weight: #{$fontWeight};
+    font-style: #{$fontStyle};
+  }
+}
+
+/** Vertical gradient background **/
+@mixin verticalGradientBackground ($fromColor, $toColor) {
+  background: $fromColor;
+  background: -moz-linear-gradient(top, $fromColor 0%, $toColor 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, $fromColor 0%,$toColor 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, $fromColor 0%,$toColor 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$fromColor', endColorstr='$toColor',GradientType=0 ); /* IE6-9 */
+}

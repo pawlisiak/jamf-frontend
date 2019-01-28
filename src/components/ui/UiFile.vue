@@ -1,11 +1,12 @@
 <template>
-  
+
   <label class="u-File">
 
     <input
       @change="changeHandler"
       ref="input"
       type="file"
+      :accept="accept"
     >
 
     <ui-button
@@ -34,6 +35,11 @@ export default {
       type: Boolean,
       required: false,
       default: true
+    },
+
+    accept: {
+      type: Array,
+      required: false
     }
   },
 
@@ -90,3 +96,15 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.u-File {
+  input[type="file"] {
+    display: none;
+  }
+
+  &__caption {
+    margin-left: 15px;
+  }
+}
+</style>

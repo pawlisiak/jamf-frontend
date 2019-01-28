@@ -1,12 +1,26 @@
-import { shallowMount } from '@vue/test-utils'
-import HelloWorld from '@/components/HelloWorld.vue'
+import { shallowMount, createLocalVue } from '@vue/test-utils'
+import Vuex from 'vuex'
+import NewUser from '@/components/pages/NewUser'
 
-describe('HelloWorld.vue', () => {
-  it('renders props.msg when passed', () => {
-    const msg = 'new message'
-    const wrapper = shallowMount(HelloWorld, {
-      propsData: { msg }
+const localVue = createLocalVue()
+localVue.use(Vuex)
+
+describe('Component NewUser', () => {
+  let actions
+  let store
+
+  beforeEach(() => {
+    actions = {
+      fetchUserGroupsData: jest.fn()
+    }
+    store = new Vuex.Store({
+      state: {},
+      actions
     })
-    expect(wrapper.text()).toMatch(msg)
+  })
+
+  it('is mounted', () => {
+    const wrapper = shallowMount(NewUser, { store, localVue })
+    expect(wrapper.html()).toContain('<div class="p-NewUser">')
   })
 })

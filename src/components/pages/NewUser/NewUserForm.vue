@@ -4,6 +4,7 @@
 
     <l-form
       ref="form"
+      @stepChange="stepChange"
       :model="model"
     />
 
@@ -19,6 +20,15 @@ export default {
     model: {
       type: Array,
       required: true
+    }
+  },
+
+  methods: {
+    stepChange (payload) {
+      this.$emit(
+        'stepChange',
+        payload
+      )
     }
   }
 }

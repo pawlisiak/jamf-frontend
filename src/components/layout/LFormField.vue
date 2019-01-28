@@ -61,7 +61,7 @@
 
 <script>
 export default {
-  name: 'FormField',
+  name: 'Form_Field',
 
   props: {
     control: {
@@ -126,12 +126,20 @@ export default {
 
     controlIsFileModal () {
       return this.control.type === 'fileModal'
+    },
+
+    controlHasCallback () {
+      return 'callback' in this.control && typeof this.control.callback === 'function'
     }
   },
 
   watch: {
     controlValue (val) {
       this.validateControl(val)
+
+      if (this.controlValue && this.controlIsValid && this.controlHasCallback) {
+        this.control.callback(val)
+      }
     }
   },
 
@@ -139,6 +147,12 @@ export default {
     touchControl () {
       this.controlIsTouched = true
       this.validateControl(this.controlValue)
+    },
+
+    resetControl () {
+      this.controlValue = null
+      this.controlIsTouched = false
+      this.resetValidationStatus()
     },
 
     setValidationTip (message) {
@@ -193,7 +207,7 @@ export default {
   margin-bottom: 24px;
 
   label {
-    font-size: $font-size-small;
+    font-size: $font-size-base;
 
     &.is-invalid {
       color: red;
@@ -208,6 +222,8 @@ export default {
       > em {
         text-transform: none;
         font-weight: normal;
+        font-style: normal;
+        letter-spacing: 0;
       }
     }
   }

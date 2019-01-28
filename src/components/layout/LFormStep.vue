@@ -11,7 +11,7 @@
     <div class="l-FormStep__footer">
 
       <ui-button
-        :callback="() => { return }"
+        :callback="resetForm"
       >
         Cancel
       </ui-button>
@@ -40,7 +40,7 @@
 
 <script>
 export default {
-  name: 'FormStep',
+  name: 'Form_Step',
 
   props: {
     index: {
@@ -92,6 +92,12 @@ export default {
           'submitForm'
         )
       }
+    },
+
+    resetForm () {
+      this.$emit(
+        'resetForm'
+      )
     }
   }
 }

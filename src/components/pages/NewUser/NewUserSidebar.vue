@@ -16,6 +16,10 @@
 
     </ol>
 
+    <figure>
+      <img src="@/assets/images/app-icon.png">
+    </figure>
+
   </l-sidebar>
 
 </template>

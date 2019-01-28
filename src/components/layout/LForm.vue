@@ -8,6 +8,7 @@
       v-show="stepIsActive(index)"
       @stepChange="stepChange"
       @submitForm="submitForm"
+      @resetForm="openResetFormDialog"
       :index="index"
       :count="model.length"
     >
@@ -21,6 +22,7 @@
         v-for="control in step.controls"
         :key="control.name"
         v-model="values[control.name]"
+        ref="control"
         :control="control"
       />
 
@@ -30,6 +32,36 @@
       ></div>
 
     </l-form-step>
+
+    <!-- Reset form dialog: start -->
+
+      <l-modal
+        ref="modal"
+        heading="Are you sure?"
+      >
+
+        <p>Are you sure you want to reset the form?<br>Click 'Ok' to erase all the form data!</p>
+
+        <footer class="l-Form__dialogFooter">
+
+          <ui-button
+            :callback="closeResetFormDialog"
+          >
+            Cancel
+          </ui-button>
+
+          <ui-button
+            priority="primary"
+            :callback="resetForm"
+          >
+            Ok
+          </ui-button>
+
+        </footer>
+
+      </l-modal>
+
+    <!-- Reset form dialog: end -->
 
   </form>
 
@@ -54,6 +86,15 @@ export default {
     }
   },
 
+  watch: {
+    activeStep (val) {
+      this.$emit(
+        'stepChange',
+        val
+      )
+    }
+  },
+
   methods: {
     stepIsActive (step) {
       return step === this.activeStep
@@ -65,7 +106,39 @@ export default {
 
     submitForm () {
       console.log('Submit!')
+    },
+
+    openResetFormDialog () {
+      this.$refs.modal.openModal()
+    },
+
+    closeResetFormDialog () {
+      this.$refs.modal.closeModal()
+    },
+
+    resetForm () {
+      this.$refs.control.forEach(control => {
+        control.resetControl()
+      })
+
+      this.activeStep = 0
+
+      this.closeResetFormDialog()
     }
   }
 }
 </script>
+
+<style lang="scss">
+.l-Form {
+  &__dialogFooter {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+
+    .u-Button:not(:first-child) {
+      margin-left: 12px;
+    }
+  }
+}
+</style>

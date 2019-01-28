@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import NewUser from './pages/NewUser'
+import NewUser from './components/pages/NewUser'
 
 export default {
   name: 'app',

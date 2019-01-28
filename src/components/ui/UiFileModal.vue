@@ -3,18 +3,34 @@
   <div class="u-FileModal">
 
     <div
-      v-if="imageIsValid"
+      v-if="mimeTypeIsImage"
       :style="{ 'background-image': 'url(' + value + ')' }"
       class="u-FileModal__preview"
+      :class="{ 'no-image': !fileIsUploaded }"
     ></div>
 
-    <ui-button :callback="openModal">
-      Upload Avatar
+    <ui-button
+      v-if="!controlIsDisabled"
+      :callback="openModal"
+    >
+
+      <template v-if="!fileIsUploaded">
+
+        Upload File
+
+      </template>
+      <template v-else>
+
+        Change File
+
+      </template>
+
     </ui-button>
 
     <!-- File upload modal: start -->
 
       <l-modal
+        v-if="!controlIsDisabled"
         ref="modal"
         :heading="control.label"
       >
@@ -25,6 +41,7 @@
           v-model="controlValue"
           ref="file"
           :autoEmit="false"
+          :accept="control.mimetypes"
         />
 
         <footer class="u-FileModal__dialogFooter">
@@ -87,13 +104,41 @@ export default {
       }
     },
 
-    imageIsValid () {
-      return true
+    controlIsDisabled () {
+      return this.control.disabled
+    },
+
+    fileIsUploaded () {
+      return this.controlValue && this.controlValue.length > 0
+    },
+
+    mimeTypeIsSet () {
+      return 'mimetypes' in this.control && typeof this.control.mimetypes === 'object' && this.control.mimetypes.length > 0
+    },
+
+    mimeTypeIsImage () {
+      if (!this.mimeTypeIsSet) {
+        return false
+      }
+
+      let response = true
+
+      this.control.mimetypes.forEach(type => {
+        if (type.split('/')[0] !== 'image') {
+          response = false
+        }
+      })
+
+      return response
     }
   },
 
   methods: {
     openModal () {
+      if (this.controlIsDisabled) {
+        return false
+      }
+
       this.$refs.modal.openModal()
     },
 
@@ -102,6 +147,10 @@ export default {
     },
 
     uploadFile () {
+      if (this.controlIsDisabled) {
+        return false
+      }
+
       this.controlValue = this.$refs.file.controlValue
       this.closeModal()
     }
@@ -112,15 +161,26 @@ export default {
 <style lang="scss">
 .u-FileModal {
   &__preview {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
+    margin-bottom: 20px;
     background-size: cover;
+    background-position: center;
+
+    &.no-image {
+      border: 1px dashed $color-gray;
+      border-radius: 3px;
+    }
   }
 
   &__dialogFooter {
     display: flex;
     justify-content: space-between;
     margin-top: 25px;
+
+    .u-Button:not(:first-child) {
+      margin-left: 12px;
+    }
   }
 }
 </style>

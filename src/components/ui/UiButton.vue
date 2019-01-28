@@ -4,7 +4,8 @@
     @click.prevent="callback"
     class="u-Button"
     :class="{ 'u-Button--primary': priority === 'primary',
-              'u-Button--secondary': priority === 'secondary' }"
+              'u-Button--secondary': priority === 'secondary',
+              'u-Button--small': size === 'small' }"
   >
 
     <slot/>
@@ -30,6 +31,15 @@ export default {
       validator: (value) => {
         return ['primary', 'secondary', 'default'].indexOf(value) > -1
       }
+    },
+
+    size: {
+      type: String,
+      default: 'medium',
+
+      validator: (value) => {
+        return ['small', 'medium', 'large'].indexOf(value) > -1
+      }
     }
   }
 }
@@ -37,15 +47,17 @@ export default {
 
 <style lang="scss">
 .u-Button {
-  height: 35px;
+  @include verticalGradientBackground ($color-gradient-gray-light-from, $color-gradient-gray-light-to);
+
   padding: 10px 19px 12px;
   font-size: $font-size-base;
   line-height: 1em;
   white-space: nowrap;
-  background-color: $color-gradient-gray-light-to;
   border: 1px solid $color-gray;
   border-radius: 18px;
   cursor: pointer;
+
+  // Priorities
 
   &--primary,
   &--secondary {
@@ -54,11 +66,17 @@ export default {
   }
 
   &--primary {
-    background-color: $color-brand-accent;
+    background: $color-brand-accent;
   }
 
   &--secondary {
-    background-color: $color-gradient-blue-to;
+    @include verticalGradientBackground ($color-gradient-blue-from, $color-gradient-blue-to);
+  }
+
+  // Sizes
+
+  &--small {
+    padding: 6px 14px 7px;
   }
 }
 </style>

@@ -30,7 +30,7 @@
         </div>
 
         <div class="l-Modal__content">
-        
+
           <slot/>
 
         </div>

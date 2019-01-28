@@ -7,7 +7,7 @@
       @change="touchControl"
     >
 
-      <option value="-">None</option>
+      <option value="">None</option>
 
       <option
         v-for="(option) in control.options"
@@ -35,8 +35,7 @@ export default {
     },
 
     value: {
-      type: [String, Number],
-      default: '-'
+      type: [String, Number]
     }
   },
 
@@ -59,7 +58,7 @@ export default {
     touchControl () {
       this.$emit('change')
     }
-  },
+  }
 }
 </script>
 
