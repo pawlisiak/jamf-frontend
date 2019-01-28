@@ -2,7 +2,11 @@
 
   <div class="u-FileModal">
 
-    <div class="u-FileModal__preview"></div>
+    <div
+      v-if="imageIsValid"
+      :style="{ 'background-image': 'url(' + value + ')' }"
+      class="u-FileModal__preview"
+    ></div>
 
     <ui-button :callback="openModal">
       Upload Avatar
@@ -17,7 +21,11 @@
 
         <div v-html="control.description"></div>
 
-        <ui-file/>
+        <ui-file
+          v-model="controlValue"
+          ref="file"
+          :autoEmit="false"
+        />
 
         <footer class="u-FileModal__dialogFooter">
 
@@ -29,7 +37,7 @@
 
           <ui-button
             priority="primary"
-            :callback="() => {}"
+            :callback="uploadFile"
           >
             Upload
           </ui-button>
@@ -52,12 +60,35 @@ export default {
     control: {
       type: Object,
       required: true
+    },
+
+    value: {
+      type: [String, Number]
     }
   },
 
   data () {
     return {
       modalIsOpened: true
+    }
+  },
+
+  computed: {
+    controlValue: {
+      get () {
+        return this.value
+      },
+
+      set (value) {
+        this.$emit(
+          'input',
+          value
+        )
+      }
+    },
+
+    imageIsValid () {
+      return true
     }
   },
 
@@ -68,6 +99,11 @@ export default {
 
     closeModal () {
       this.$refs.modal.closeModal()
+    },
+
+    uploadFile () {
+      this.controlValue = this.$refs.file.controlValue
+      this.closeModal()
     }
   }
 }
@@ -75,6 +111,12 @@ export default {
 
 <style lang="scss">
 .u-FileModal {
+  &__preview {
+    width: 100px;
+    height: 100px;
+    background-size: cover;
+  }
+
   &__dialogFooter {
     display: flex;
     justify-content: space-between;
