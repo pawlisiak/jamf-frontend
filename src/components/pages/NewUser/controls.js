@@ -11,10 +11,7 @@ export function model (_self) {
           type: 'email',
           required: true,
 
-          validator: (value) => {
-            return validator.emailFormat(value)
-          },
-
+          validator: (value) => validator.emailFormat(value),
           validationMessage: 'Wrong format of email address.',
 
           callback: (value) => {
@@ -82,7 +79,7 @@ export function model (_self) {
           label: 'Avatar',
           description: 'User Avatar. It is recommended that you use a file with the GIF or PNG format. The recommended size is 512x512 pixels.',
           type: 'fileModal',
-          required: false,
+          required: true,
 
           mimetypes: [
             'image/gif',
@@ -90,10 +87,7 @@ export function model (_self) {
             'image/jpeg'
           ],
 
-          validator: (value) => {
-            return validator.fileMimeType(value, ['image/gif', 'image/png', 'image/jpeg'])
-          },
-
+          validator: (value) => validator.fileMimeType(value, ['image/gif', 'image/png', 'image/jpeg']),
           validationMessage: 'Wrong image file format',
 
           callback: (value) => {

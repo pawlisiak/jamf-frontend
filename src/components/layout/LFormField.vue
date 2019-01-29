@@ -3,7 +3,8 @@
   <div class="l-FormField">
 
     <label
-      :class="{ 'is-invalid': !controlIsValid }"
+      :class="{ 'is-invalid': !controlIsValid,
+                'is-disabled': controlIsDisabled }"
     >
 
       <strong v-if="control.label || control.description">
@@ -128,6 +129,10 @@ export default {
       return this.control.type === 'fileModal'
     },
 
+    controlIsDisabled () {
+      return 'disabled' in this.control && this.control.disabled
+    },
+
     controlHasCallback () {
       return 'callback' in this.control && typeof this.control.callback === 'function'
     }
@@ -209,21 +214,44 @@ export default {
   label {
     font-size: $font-size-base;
 
-    &.is-invalid {
-      color: red;
-    }
-
     > strong {
       display: block;
       margin-bottom: 8px;
       text-transform: uppercase;
       letter-spacing: .1em;
+      color: $color-brand-secondary;
 
       > em {
         text-transform: none;
         font-weight: normal;
         font-style: normal;
         letter-spacing: 0;
+        color: $color-gray-dark;
+      }
+    }
+
+    &.is-invalid {
+      color: red;
+
+      > strong {
+        color: inherit;
+
+        > em {
+          color: inherit;
+        }
+      }
+    }
+
+    &.is-disabled {
+      color: $color-gray-dark;
+
+      > strong {
+        font-size: $font-size-small;
+        color: inherit;
+
+        > em {
+          color: inherit;
+        }
       }
     }
   }

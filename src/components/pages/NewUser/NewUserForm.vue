@@ -6,6 +6,8 @@
       ref="form"
       @stepChange="stepChange"
       :model="model"
+      action="sample.request"
+      novalidate
     />
 
   </main>

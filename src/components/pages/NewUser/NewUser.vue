@@ -79,7 +79,14 @@ export default {
 <style lang="scss">
 .p-NewUser {
   display: flex;
-  align-items: stretch;
+
+  @include breakpoint (sm down) {
+    flex-wrap: wrap;
+  }
+
+  @include breakpoint (lg) {
+    align-items: stretch;
+  }
 
   &__sidebar {
     position: relative;
@@ -92,11 +99,23 @@ export default {
       margin: 10x 0;
       list-style: none;
 
+      @include breakpoint (sm down) {
+        @media (max-height: 700px) {
+          margin: 0;
+        }
+      }
+
       > li {
         position: relative;
         padding-left: 28px;
         font-size: 15px;
         line-height: 1em;
+
+        @include breakpoint (sm down) {
+          @media (max-height: 700px) {
+            display: none;
+          }
+        }
 
         &:not(:last-of-type) {
           margin-bottom: 25px;
@@ -116,6 +135,13 @@ export default {
         }
 
         &.is-active {
+          @include breakpoint (sm down) {
+            @media (max-height: 700px) {
+              display: block;
+              margin: 0;
+            }
+          }
+
           &::before {
             background: #7dd96e;
           }
@@ -125,9 +151,18 @@ export default {
 
     figure {
       position: absolute;
-      left: 0;
-      bottom: 0;
+      left: 20px;
+      bottom: 20px;
       width: 120%;
+      margin: 0;
+
+      @media (max-height: 600px) {
+        display: none
+      }
+
+      @include breakpoint (sm down) {
+        display: none;
+      }
 
       img {
         width: 100%;

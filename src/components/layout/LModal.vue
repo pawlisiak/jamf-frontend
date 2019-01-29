@@ -31,7 +31,13 @@
 
         <div class="l-Modal__content">
 
-          <slot/>
+          <slot name="content"/>
+
+        </div>
+
+        <div class="l-Modal__footer">
+
+          <slot name="footer"/>
 
         </div>
 
@@ -85,13 +91,14 @@ export default {
   justify-content: center;
   width: 100%;
   height: 100%;
+  color: initial;
 
   &__overlay {
     position: absolute;
     z-index: -1;
     width: 100%;
     height: 100%;
-    background-color: rgba(black, .7);
+    background-color: rgba(black, .8);
   }
 
   &__window {
@@ -100,7 +107,7 @@ export default {
     margin: 20px;
     background: white;
     border-radius: 6px;
-    box-shadow: 0 7px 20px rgba(black, .2);
+    box-shadow: 0 7px 20px rgba(black, .4);
   }
 
   &__heading {
@@ -113,11 +120,22 @@ export default {
   }
 
   &__heading,
-  &__content {
+  &__content,
+  &__footer {
     padding: 25px;
   }
 
+  &__footer {
+    display: flex;
+    justify-content: space-between;
+
+    .u-Button:not(:first-child) {
+      margin-left: 12px;
+    }
+  }
+
   // Enter and leave animation
+
   &--enter,
   &--leave-to {
     #{$this} {

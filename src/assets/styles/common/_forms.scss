@@ -4,14 +4,27 @@
   padding: 1em;
   font-size: $font-size-base;
   line-height: 1em;
+  color: $color-gray-darker;
   background: white;
   border: 1px solid $color-gray;
   border-radius: 3px;
+  transition: border-color .35s;
+
+  &:focus {
+    border-color: $color-brand-primary;
+  }
 
   .is-invalid & {
     border-color: red;
   }
+
+  &[disabled] {
+    color: $color-gray-dark;
+    border-color: $color-gray-light;
+  }
 }
+
+/** Controls **/
 
 input {
   &:not([type=checkbox]):not([type="radio"]):not([type="file"]) {

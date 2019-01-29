@@ -1,6 +1,9 @@
 <template>
 
-  <form class="l-Form">
+  <form
+    :class="{ 'is-processing': formIsProcessing }"
+    class="l-Form"
+  >
 
     <l-form-step
       v-for="(step, index) in model"
@@ -16,6 +19,7 @@
       <div
         v-if="step.intro"
         v-html="step.intro"
+        class="l-Form__stepIntro"
       ></div>
 
       <l-form-field
@@ -29,6 +33,7 @@
       <div
         v-if="step.outro"
         v-html="step.outro"
+        class="l-Form__stepOutro"
       ></div>
 
     </l-form-step>
@@ -40,9 +45,12 @@
         heading="Are you sure?"
       >
 
-        <p>Are you sure you want to reset the form?<br>Click 'Ok' to erase all the form data!</p>
+        <template slot="content">
 
-        <footer class="l-Form__dialogFooter">
+          <p>Are you sure you want to reset the form?<br>Click 'Ok' to erase all the form data!</p>
+
+        </template>
+        <template slot="footer">
 
           <ui-button
             :callback="closeResetFormDialog"
@@ -57,7 +65,7 @@
             Ok
           </ui-button>
 
-        </footer>
+        </template>
 
       </l-modal>
 
@@ -68,6 +76,10 @@
 </template>
 
 <script>
+import service from '@/services/SubmitForm'
+
+import { mapActions } from 'vuex'
+
 export default {
   name: 'Form',
 
@@ -75,12 +87,17 @@ export default {
     model: {
       type: Array,
       required: true
+    },
+
+    action: {
+      type: String
     }
   },
 
   data () {
     return {
       activeStep: 0,
+      formIsProcessing: false,
 
       values: {}
     }
@@ -96,6 +113,10 @@ export default {
   },
 
   methods: {
+    ...mapActions('App', {
+      commitNotification: 'commitNotification'
+    }),
+
     stepIsActive (step) {
       return step === this.activeStep
     },
@@ -104,8 +125,48 @@ export default {
       this.activeStep = payload
     },
 
+    getFormValidation () {
+      let formIsValid = true
+
+      this.$refs.control.forEach(control => {
+        if ('touchControl' in control) {
+          control.touchControl()
+
+          if (!control.controlIsValid) {
+            formIsValid = false
+          }
+        }
+      })
+
+      return formIsValid
+    },
+
     submitForm () {
-      console.log('Submit!')
+      this.formIsProcessing = true
+
+      if (this.getFormValidation()) {
+        this.sendForm()
+      } else {
+        this.commitNotification(
+          'Something\'s wrong with the form. Reset form and try again.'
+        )
+      }
+
+      this.formIsProcessing = false
+    },
+
+    async sendForm () {
+      try {
+        let response = await service.submitForm(this.action, this.values)
+
+        console.log (response)
+
+        this.resetForm()
+      } catch (error) {
+        this.commitNotification(
+          error + ' (when submitting the form)'
+        )
+      }
     },
 
     openResetFormDialog () {
@@ -131,14 +192,34 @@ export default {
 
 <style lang="scss">
 .l-Form {
-  &__dialogFooter {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 25px;
+  position: relative;
 
-    .u-Button:not(:first-child) {
-      margin-left: 12px;
+    &::after {
+      content: '';
+      top: 10px;
+      left: 10px;
+      width: calc(100% - 20px);
+      height: 0;
+      opacity: 0;
+      transition: opacity .3s,
+                  height 0s linear .3s;
     }
+
+  &.is-processing {
+    &::after {
+      height: calc(100% - 20px);
+      background-color: rgba(white, .7);
+      opacity: 1;
+      transition: opacity .3s;
+    }
+  }
+
+  &__stepIntro {
+    margin-bottom: 20px;
+  }
+
+  &__stepOutro {
+    margin-top: 20px;
   }
 }
 </style>

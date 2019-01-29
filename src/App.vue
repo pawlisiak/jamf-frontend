@@ -10,6 +10,8 @@
 
     </div>
 
+    <l-notifications/>
+
   </div>
 
 </template>

@@ -1,0 +1,32 @@
+/** Breakpoints **/
+
+$breakpoints: (
+  sm: 0,
+  lg: 680
+);
+
+/** Colors **/
+
+$color-brand-primary: #4990e2;
+$color-brand-secondary: #5c6984;
+$color-brand-accent: #36afff;
+
+$color-gray-darker: #4d4c4c;
+$color-gray-dark: #a0a0a0;
+$color-gray: #cbd0d8;
+$color-gray-light: #e7e6e6;
+$color-gray-lighter: #fafafa;
+
+$color-gradient-blue-from: $color-brand-primary;
+$color-gradient-blue-to: #2682eb;
+
+$color-gradient-gray-light-from: $color-gray-lighter;
+$color-gradient-gray-light-to: $color-gray-light;
+
+/** Typography **/
+
+$font-family-base: 'Proxima Nova';
+
+$font-size-small: 11px;
+$font-size-base: 14px;
+$font-size-large: 18px;

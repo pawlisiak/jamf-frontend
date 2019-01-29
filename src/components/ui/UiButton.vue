@@ -47,7 +47,7 @@ export default {
 
 <style lang="scss">
 .u-Button {
-  @include verticalGradientBackground ($color-gradient-gray-light-from, $color-gradient-gray-light-to);
+  @include verticalGradient ($color-gradient-gray-light-from, $color-gradient-gray-light-to);
 
   padding: 10px 19px 12px;
   font-size: $font-size-base;
@@ -55,7 +55,18 @@ export default {
   white-space: nowrap;
   border: 1px solid $color-gray;
   border-radius: 18px;
+  box-shadow: inset 0 10px 20px rgba(black, 0);
   cursor: pointer;
+  transition: box-shadow .35s;
+
+  &:hover,
+  &:focus {
+    box-shadow: inset 0 10px 20px rgba(black, .2);
+  }
+
+  &:focus {
+    outline: none;
+  }
 
   // Priorities
 
@@ -70,7 +81,7 @@ export default {
   }
 
   &--secondary {
-    @include verticalGradientBackground ($color-gradient-blue-from, $color-gradient-blue-to);
+    @include verticalGradient ($color-gradient-blue-from, $color-gradient-blue-to);
   }
 
   // Sizes

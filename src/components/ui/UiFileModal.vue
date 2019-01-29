@@ -35,16 +35,21 @@
         :heading="control.label"
       >
 
-        <div v-html="control.description"></div>
+        <template slot="content">
 
-        <ui-file
-          v-model="controlValue"
-          ref="file"
-          :autoEmit="false"
-          :accept="control.mimetypes"
-        />
+          <p v-html="control.description"></p>
 
-        <footer class="u-FileModal__dialogFooter">
+          <ui-file
+            v-model="controlValue"
+            ref="file"
+            :autoEmit="false"
+            :accept="control.mimetypes"
+            class="u-FileModal__fileInput"
+          />
+
+        </template>
+
+        <template slot="footer">
 
           <ui-button
             :callback="closeModal"
@@ -59,7 +64,7 @@
             Upload
           </ui-button>
 
-        </footer>
+        </template>
 
       </l-modal>
 
@@ -163,6 +168,7 @@ export default {
   &__preview {
     width: 80px;
     height: 80px;
+    margin-top: 20px;
     margin-bottom: 20px;
     background-size: cover;
     background-position: center;
@@ -173,14 +179,8 @@ export default {
     }
   }
 
-  &__dialogFooter {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 25px;
-
-    .u-Button:not(:first-child) {
-      margin-left: 12px;
-    }
+  &__fileInput {
+    margin-top: 20px;
   }
 }
 </style>

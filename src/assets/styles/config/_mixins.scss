@@ -1,5 +1,9 @@
 /** Font family embedding **/
 
+/*
+ * @include fontFace ('Font Name', '/fonts/', 'file-name')        For font 'Font Name' loaded from /fonts/file-name.woff etc.
+ */
+
 @mixin fontFace ($fontName, $directory, $fileName, $fontWeight: normal, $fontStyle: normal) {
   @font-face {
     font-family: '#{$fontName}';
@@ -13,10 +17,58 @@
 }
 
 /** Vertical gradient background **/
-@mixin verticalGradientBackground ($fromColor, $toColor) {
+
+/*
+ * @include verticalGradient (red, purple)        Gradient from red (on top) to purple (on bottom)
+ */
+
+@mixin verticalGradient ($fromColor, $toColor) {
   background: $fromColor;
   background: -moz-linear-gradient(top, $fromColor 0%, $toColor 100%); /* FF3.6-15 */
   background: -webkit-linear-gradient(top, $fromColor 0%,$toColor 100%); /* Chrome10-25,Safari5.1-6 */
   background: linear-gradient(to bottom, $fromColor 0%,$toColor 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$fromColor', endColorstr='$toColor',GradientType=0 ); /* IE6-9 */
+}
+
+/** Media queries **/
+
+/*
+ * @include breakpoint (sm) { ... }               For width greater than sm minimum width
+ * @include breakpoint (sm only) { ... }          For width greater than sm minimum width and lower than sm maximum width
+ * @include breakpoint (md down) { ... }          For width lower than sm maximum width
+ */
+
+@mixin breakpoint ($breakpoint) {
+	@if $breakpoint {
+		@if map-has-key($breakpoints, $breakpoint) {
+			@media (min-width: #{map-get($breakpoints, $breakpoint)}px) {
+				@content;
+
+			}
+		}
+
+		@else if str-index(#{$breakpoint}, ' down') {
+			@each $name, $pixels in $breakpoints {
+				@if str-index(#{$breakpoint}, $name + ' ') {
+					@if map-get-next($breakpoints, $name) {
+						@media (max-width: #{map-get-next($breakpoints, $name) - 1}px) {
+							@content;
+						}
+					}
+				}
+			}
+		}
+
+		@else if str-index(#{$breakpoint}, ' only') {
+			@each $name, $pixels in $breakpoints {
+				@if str-index(#{$breakpoint}, $name + ' ') {
+					@if map-get-next($breakpoints, $name) {
+						@media (min-width: #{map-get($breakpoints, $name)}px) and (max-width: #{map-get-next($breakpoints, $name) - 1}px) {
+							@content;
+						}
+					}
+				}
+			}
+		}
+	}
 }

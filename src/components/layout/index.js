@@ -7,6 +7,7 @@ import LFormField from './LFormField'
 import LFormStep from './LFormStep'
 import LHeader from './LHeader'
 import LModal from './LModal'
+import LNotifications from './LNotifications'
 import LSidebar from './LSidebar'
 
 // Register common components
@@ -15,4 +16,5 @@ Vue.component('l-form-field', LFormField)
 Vue.component('l-form-step', LFormStep)
 Vue.component('l-header', LHeader)
 Vue.component('l-modal', LModal)
+Vue.component('l-notifications', LNotifications)
 Vue.component('l-sidebar', LSidebar)

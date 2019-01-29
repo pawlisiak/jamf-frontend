@@ -39,6 +39,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   name: 'Form_Step',
 
@@ -61,11 +63,19 @@ export default {
   },
 
   methods: {
+    ...mapActions('App', {
+      commitNotification: 'commitNotification'
+    }),
+
     goToStep () {
       if (this.getStepValidation()) {
         this.$emit(
           'stepChange',
           this.index + 1
+        )
+      } else {
+        this.commitNotification(
+          'Something\'s wrong with this step. Please correct it.'
         )
       }
     },

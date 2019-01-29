@@ -6,7 +6,7 @@ export default {
   },
 
   // File mimetype validation
-  fileMimeType: (value, mimetypes) => {
+  fileMimeType: (value, mimetypes = []) => {
     if (mimetypes.length === 0) {
       return true
     }
@@ -16,12 +16,14 @@ export default {
       return true
     }
 
+    let result = false
+
     mimetypes.forEach(function (type) {
-      if (value.includes(type)) {
-        return true
+      if (value.indexOf('data:' + type + ';base64,') === 0) {
+        result = true
       }
     })
 
-    return true
+    return result
   }
 }
