@@ -1,7 +1,7 @@
 <template>
 
   <form
-    :class="{ 'is-processing': formIsProcessing }"
+    :class="{ 'is-processing': isFormProcessing }"
     class="l-Form"
   >
 
@@ -97,7 +97,7 @@ export default {
   data () {
     return {
       activeStep: 0,
-      formIsProcessing: false,
+      isFormProcessing: false,
 
       values: {}
     }
@@ -126,23 +126,23 @@ export default {
     },
 
     getFormValidation () {
-      let formIsValid = true
+      let isFormValid = true
 
       this.$refs.control.forEach(control => {
         if ('touchControl' in control) {
           control.touchControl()
 
-          if (!control.controlIsValid) {
-            formIsValid = false
+          if (!control.isControlValid) {
+            isFormValid = false
           }
         }
       })
 
-      return formIsValid
+      return isFormValid
     },
 
     submitForm () {
-      this.formIsProcessing = true
+      this.isFormProcessing = true
 
       if (this.getFormValidation()) {
         this.sendForm()
@@ -151,7 +151,7 @@ export default {
           'Something\'s wrong with the form. Reset form and try again.'
         )
 
-        this.formIsProcessing = false
+        this.isFormProcessing = false
       }
     },
 
@@ -162,13 +162,14 @@ export default {
         console.log(response)
 
         this.resetForm()
-        this.formIsProcessing = false
+
+        this.isFormProcessing = false
       } catch (error) {
         this.commitNotification(
           error + ' (when submitting the form)'
         )
 
-        this.formIsProcessing = false
+        this.isFormProcessing = false
       }
     },
 

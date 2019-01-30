@@ -17,7 +17,7 @@
       </ui-button>
 
       <ui-button
-        v-if="!stepIsLast"
+        v-if="!isStepLast"
         :callback="goToStep"
         priority="secondary"
       >
@@ -57,7 +57,7 @@ export default {
   },
 
   computed: {
-    stepIsLast () {
+    isStepLast () {
       return this.index + 1 >= this.count
     }
   },
@@ -81,19 +81,19 @@ export default {
     },
 
     getStepValidation () {
-      let stepIsValid = true
+      let isStepValid = true
 
       this.$children.forEach(child => {
         if ('touchControl' in child) {
           child.touchControl()
 
-          if (!child.controlIsValid) {
-            stepIsValid = false
+          if (!child.isControlValid) {
+            isStepValid = false
           }
         }
       })
 
-      return stepIsValid
+      return isStepValid
     },
 
     submitForm () {
