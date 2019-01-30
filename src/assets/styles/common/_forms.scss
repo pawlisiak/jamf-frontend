@@ -37,9 +37,14 @@ select {
 
   -webkit-appearance: none;
      -moz-appearance: none;
+      -ms-appearance: none;
           appearance: none;
 
   &::after {
     content: "drop";
+  }
+
+  &::-ms-expand {
+    display: none;
   }
 }

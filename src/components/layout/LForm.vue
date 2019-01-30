@@ -8,7 +8,7 @@
     <l-form-step
       v-for="(step, index) in model"
       :key="index"
-      v-show="stepIsActive(index)"
+      v-show="isStepActive(index)"
       @stepChange="stepChange"
       @submitForm="submitForm"
       @resetForm="openResetFormDialog"
@@ -117,7 +117,7 @@ export default {
       commitNotification: 'commitNotification'
     }),
 
-    stepIsActive (step) {
+    isStepActive (step) {
       return step === this.activeStep
     },
 
@@ -150,22 +150,25 @@ export default {
         this.commitNotification(
           'Something\'s wrong with the form. Reset form and try again.'
         )
-      }
 
-      this.formIsProcessing = false
+        this.formIsProcessing = false
+      }
     },
 
     async sendForm () {
       try {
         let response = await service.submitForm(this.action, this.values)
 
-        console.log (response)
+        console.log(response)
 
         this.resetForm()
+        this.formIsProcessing = false
       } catch (error) {
         this.commitNotification(
           error + ' (when submitting the form)'
         )
+
+        this.formIsProcessing = false
       }
     },
 

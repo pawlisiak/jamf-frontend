@@ -81,7 +81,7 @@ export default {
   display: flex;
 
   @include breakpoint (sm down) {
-    flex-wrap: wrap;
+    flex-direction: column;
   }
 
   @include breakpoint (lg) {
@@ -173,7 +173,18 @@ export default {
 
   &__form {
     flex-grow: 1;
+    display: block;
     padding: 40px 25px 25px;
+
+    @include breakpoint (sm down) {
+      flex-shrink: 0;
+      width: 100%;
+    }
+
+    @include breakpoint (lg) {
+      flex-shrink: 1;
+      width: auto;
+    }
 
     .l-Form {
       height: 100%;

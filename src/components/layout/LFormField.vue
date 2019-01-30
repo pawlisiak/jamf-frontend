@@ -3,8 +3,8 @@
   <div class="l-FormField">
 
     <label
-      :class="{ 'is-invalid': !controlIsValid,
-                'is-disabled': controlIsDisabled }"
+      :class="{ 'is-invalid': !isControlValid,
+                'is-disabled': isControlDisabled }"
     >
 
       <strong v-if="control.label || control.description">
@@ -19,27 +19,27 @@
       </strong>
 
       <ui-input
-        v-if="controlIsInput"
+        v-if="isControlInput"
         v-model="controlValue"
         :control="control"
         @blur="touchControl"
       />
 
       <ui-select
-        v-if="controlIsSelect"
+        v-if="isControlSelect"
         v-model="controlValue"
         :control="control"
         @change="touchControl"
       />
 
       <ui-file-modal
-        v-if="controlIsFileModal"
+        v-if="isControlFileModal"
         v-model="controlValue"
         :control="control"
       />
 
       <em
-        v-if="!controlIsValid"
+        v-if="!isControlValid"
         class="l-FormField__validationTip"
       >
 
@@ -93,8 +93,8 @@ export default {
 
   data () {
     return {
-      controlIsValid: true,
-      controlIsTouched: false,
+      isControlValid: true,
+      isControlTouched: false,
       validationTip: []
     }
   },
@@ -113,27 +113,27 @@ export default {
       }
     },
 
-    controlIsInput () {
+    isControlInput () {
       return (['text', 'email', 'password'].indexOf(this.control.type) > -1)
     },
 
-    controlIsSelect () {
+    isControlSelect () {
       return this.control.type === 'select'
     },
 
-    controlIsFile () {
+    isControlFile () {
       return this.control.type === 'file'
     },
 
-    controlIsFileModal () {
+    isControlFileModal () {
       return this.control.type === 'fileModal'
     },
 
-    controlIsDisabled () {
+    isControlDisabled () {
       return 'disabled' in this.control && this.control.disabled
     },
 
-    controlHasCallback () {
+    hasControlCallback () {
       return 'callback' in this.control && typeof this.control.callback === 'function'
     }
   },
@@ -142,7 +142,7 @@ export default {
     controlValue (val) {
       this.validateControl(val)
 
-      if (this.controlValue && this.controlIsValid && this.controlHasCallback) {
+      if (this.controlValue && this.isControlValid && this.hasControlCallback) {
         this.control.callback(val)
       }
     }
@@ -150,29 +150,29 @@ export default {
 
   methods: {
     touchControl () {
-      this.controlIsTouched = true
+      this.isControlTouched = true
       this.validateControl(this.controlValue)
     },
 
     resetControl () {
       this.controlValue = null
-      this.controlIsTouched = false
+      this.isControlTouched = false
       this.resetValidationStatus()
     },
 
     setValidationTip (message) {
-      this.controlIsValid = false
+      this.isControlValid = false
       this.validationTip[this.validationTip.length] = message
     },
 
     resetValidationStatus () {
-      this.controlIsValid = true
+      this.isControlValid = true
       this.validationTip.length = 0
     },
 
     validateControl (value) {
       // Prevent validation during input before first blur of input
-      if (!this.controlIsTouched) {
+      if (!this.isControlTouched) {
         return
       }
 

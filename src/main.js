@@ -1,4 +1,4 @@
-// Babel Polyfill for IE compatibility
+// Babel Polyfill for older browsers compatibility
 import 'babel-polyfill'
 
 // Import global CSS

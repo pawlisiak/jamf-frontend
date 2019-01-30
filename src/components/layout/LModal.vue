@@ -7,7 +7,7 @@
   >
 
     <div
-      v-if="modalIsOpened"
+      v-if="isModalOpened"
       class="l-Modal"
     >
 
@@ -62,17 +62,17 @@ export default {
 
   data () {
     return {
-      modalIsOpened: false
+      isModalOpened: false
     }
   },
 
   methods: {
     closeModal () {
-      this.modalIsOpened = false
+      this.isModalOpened = false
     },
 
     openModal () {
-      this.modalIsOpened = true
+      this.isModalOpened = true
     }
   }
 }
@@ -95,6 +95,8 @@ export default {
 
   &__overlay {
     position: absolute;
+    top: 0;
+    left: 0;
     z-index: -1;
     width: 100%;
     height: 100%;

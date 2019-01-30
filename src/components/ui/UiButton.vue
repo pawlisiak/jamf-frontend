@@ -68,7 +68,7 @@ export default {
     outline: none;
   }
 
-  // Priorities
+  /** Priorities **/
 
   &--primary,
   &--secondary {
@@ -84,7 +84,7 @@ export default {
     @include verticalGradient ($color-gradient-blue-from, $color-gradient-blue-to);
   }
 
-  // Sizes
+  /** Sizes **/
 
   &--small {
     padding: 6px 14px 7px;

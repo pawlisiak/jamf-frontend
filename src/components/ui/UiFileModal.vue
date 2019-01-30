@@ -3,18 +3,18 @@
   <div class="u-FileModal">
 
     <div
-      v-if="mimeTypeIsImage"
+      v-if="isMimeTypeImage"
       :style="{ 'background-image': 'url(' + value + ')' }"
       class="u-FileModal__preview"
-      :class="{ 'no-image': !fileIsUploaded }"
+      :class="{ 'no-image': !isFileUploaded }"
     ></div>
 
     <ui-button
-      v-if="!controlIsDisabled"
+      v-if="!isControlDisabled"
       :callback="openModal"
     >
 
-      <template v-if="!fileIsUploaded">
+      <template v-if="!isFileUploaded">
 
         Upload File
 
@@ -30,7 +30,7 @@
     <!-- File upload modal: start -->
 
       <l-modal
-        v-if="!controlIsDisabled"
+        v-if="!isControlDisabled"
         ref="modal"
         :heading="control.label"
       >
@@ -109,20 +109,20 @@ export default {
       }
     },
 
-    controlIsDisabled () {
+    isControlDisabled () {
       return this.control.disabled
     },
 
-    fileIsUploaded () {
+    isFileUploaded () {
       return this.controlValue && this.controlValue.length > 0
     },
 
-    mimeTypeIsSet () {
+    isMimeTypeSet () {
       return 'mimetypes' in this.control && typeof this.control.mimetypes === 'object' && this.control.mimetypes.length > 0
     },
 
-    mimeTypeIsImage () {
-      if (!this.mimeTypeIsSet) {
+    isMimeTypeImage () {
+      if (!this.isMimeTypeSet) {
         return false
       }
 
@@ -140,7 +140,7 @@ export default {
 
   methods: {
     openModal () {
-      if (this.controlIsDisabled) {
+      if (this.isControlDisabled) {
         return false
       }
 
@@ -152,7 +152,7 @@ export default {
     },
 
     uploadFile () {
-      if (this.controlIsDisabled) {
+      if (this.isControlDisabled) {
         return false
       }
 

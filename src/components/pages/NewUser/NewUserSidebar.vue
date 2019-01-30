@@ -3,13 +3,13 @@
   <l-sidebar>
 
     <ol
-      v-if="stepsFetched"
+      v-if="areStepsFetched"
     >
 
       <li
         v-for="(step, index) in steps"
         :key="index"
-        :class="{ 'is-active': stepIsActive(index) }"
+        :class="{ 'is-active': isStepActive(index) }"
       >
         {{ step }}
       </li>
@@ -41,13 +41,13 @@ export default {
   },
 
   computed: {
-    stepsFetched: (_self = this) => {
+    areStepsFetched: (_self = this) => {
       return _self.steps.length > 0
     }
   },
 
   methods: {
-    stepIsActive (step) {
+    isStepActive (step) {
       return this.activeStep === step
     }
   }
