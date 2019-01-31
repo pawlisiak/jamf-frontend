@@ -9,6 +9,8 @@
 </template>
 
 <script>
+import '@/assets/images/side-background.png'
+
 export default {
   name: 'Sidebar'
 }

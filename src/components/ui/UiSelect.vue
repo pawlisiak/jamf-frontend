@@ -7,7 +7,9 @@
       @change="touchControl"
     >
 
-      <option value="">None</option>
+      <option value="">
+        None
+      </option>
 
       <option
         v-for="(option) in control.options"
@@ -42,7 +44,9 @@ export default {
   computed: {
     controlValue: {
       get () {
-        return this.value
+        return (this.isControlValueSet)
+          ? this.value
+          : ''
       },
 
       set (value) {
@@ -51,6 +55,10 @@ export default {
           value
         )
       }
+    },
+
+    isControlValueSet () {
+      return (this.value && this.value.length > 0)
     }
   },
 

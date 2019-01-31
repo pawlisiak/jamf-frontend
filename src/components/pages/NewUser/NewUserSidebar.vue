@@ -17,7 +17,7 @@
     </ol>
 
     <figure>
-      <img src="@/assets/images/app-icon.png">
+      <img src="http://pawlisiak.com/img/app-icon.png">
     </figure>
 
   </l-sidebar>

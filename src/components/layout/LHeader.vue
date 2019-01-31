@@ -3,7 +3,7 @@
   <header class="l-Header">
 
     <figure>
-      <img src="@/assets/images/icon.png">
+      <img src="http://pawlisiak.com/img/icon.png">
     </figure>
 
     <h1>{{ pageTitle }}</h1>
